@@ -1,0 +1,138 @@
+<section class="vh-100">
+    <div class="container py-5 h-100">
+        <div class="row d-flex align-items-center justify-content-center h-100">
+            <div class="col-md-8 col-lg-7 col-xl-6">
+                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.svg"
+                    class="img-fluid" alt="Phone image">
+            </div>
+            <div class="col-md-7 col-lg-5 col-xl-5 offset-xl-1">
+                <div class="container">
+                    <div class="row full-height justify-content-center">
+                        <div class="col-12 text-center align-self-center py-5">
+                            <div class="section pb-5 pt-5 pt-sm-2 text-center">
+                                <h6 class="mb-0 pb-3 "><span>Log In </span><span>Sign Up</span></h6>
+                                <input class="checkbox" type="checkbox" id="reg-log" name="reg-log" />
+                                <label for="reg-log"></label>
+                                <div class="card-3d-wrap mx-auto">
+                                    <div class="card-3d-wrapper">
+                                        <div class="card-front">
+                                            <div class="center-wrap">
+                                                <div class="section text-center">
+
+                                                    <h4 class="mb-4 pb-3 link">Log In</h4>
+                                                    <form action="/signin" method="post">
+                                                        <div class="form-group">
+                                                            <input id="email" name="email_login" type="email"
+                                                                class="form-style" placeholder="Email" required>
+                                                            <i class="input-icon uil uil-at"></i>
+                                                        </div>
+                                                        <div class="form-group mt-2">
+                                                            <input id="password" minlength="6" name="password_login"
+                                                                type="password" class="form-style"
+                                                                placeholder="Password" required>
+                                                            <i class="input-icon uil uil-lock-alt"></i>
+                                                        </div>
+
+
+                                                        {{!-- <button type="submit" style="margin-top: 30px;"
+                                                            class="button">
+                                                            <span class="button_lg">
+                                                                <span class="button_sl"></span>
+                                                                <span class="button_text">LOGIN</span>
+                                                            </span>
+                                                        </button> --}}
+                                                    </form>
+                                                    <button onclick="getapi()" style="margin-top: 30px;" class="button">
+                                                        <span class="button_lg">
+                                                            <span class="button_sl"></span>
+                                                            <span class="button_text">LOGIN</span>
+                                                        </span>
+                                                    </button>
+                                                    <p class="mb-0 mt-4 text-center"><a href="#" class="link">Forgot
+                                                            your
+                                                            password?</a></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-back">
+                                            <div class="center-wrap">
+                                                <div class="section text-center">
+                                                    <h4 style="margin-top: 30px;" class="mb-3 pb-3 link">Sign Up</h4>
+                                                    <form action="/signup" method="post">
+
+                                                        <div class="form-group ">
+                                                            <input name="email" type="email" class="form-style"
+                                                                placeholder="Email" required>
+                                                            <i class="input-icon uil uil-at"></i>
+                                                        </div>
+                                                        <div class="form-group mt-2">
+                                                            <input minlength="3" name="username" type="text"
+                                                                class="form-style" placeholder="Full Name" required>
+                                                            <i class="input-icon uil uil-user"></i>
+                                                        </div>
+                                                        <div class="form-group mt-2">
+                                                            <input minlength="6" name="password" type="password"
+                                                                class="form-style" placeholder="Password" required>
+                                                            <i class="input-icon uil uil-lock-alt"></i>
+                                                        </div>
+                                                        <div class="form-group mt-2">
+                                                            <input minlength="6" name="cfpassword" type="password"
+                                                                class="form-style" placeholder="Comfirm Password"
+                                                                required>
+                                                            <i class="input-icon uil uil-lock-alt"></i>
+                                                        </div>
+                                                        {{!-- <a href="#" class="btn mt-4">Register</a> --}}
+                                                        <button type="submit"
+                                                            style="margin-top: 30px; margin-bottom:20px" class="button">
+                                                            <span class="button_lg">
+                                                                <span class="button_sl"></span>
+                                                                <span class="button_text">REGISTER</span>
+                                                            </span>
+                                                        </button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+    async function getapi() {
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+
+        var data = {
+            "email_login": email,
+            "password_login": password
+        }
+
+        var res = await fetch('http://127.0.0.1:3000/api/signin', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+        const result = await res.json();
+        console.log(result);
+        if (result == null) {
+            return
+        } else if (result != null && result['status'] == false) {
+            alert(result['message'])
+        } else if (result['status']) {
+            //Lưu user vào localStorage
+            await localStorage.setItem('role', JSON.stringify(result.check));
+            const login = JSON.parse(localStorage.getItem('role'));
+            console.log(login)
+            //Chuyen huong ve home
+            window.location.href = 'http://127.0.0.1:3000/home'
+        }
+    }
+</script>

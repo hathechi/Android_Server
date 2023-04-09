@@ -1,0 +1,209 @@
+<div style="margin: 60px 10px;" class="container">
+    <div class="table-wrapper">
+        <div class="table-title">
+            <div style="margin: 20px 0px;" class="row">
+                <div class="col-sm-6">
+                    <h2><b>Statis</b></h2>
+                </div>
+
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class=" justify-content-center">
+                        <div style="color: black;" class="input-group date">
+                            <input required name="date1" id="date1" data-date-format="dd/mm/yyyy" type="text"
+                                class="form-control" data-provide="datepicker" placeholder="Select date">
+                            <div class="input-group-append">
+                                <span class="input-group-text"><i style="font-size:24px; color: #000;"
+                                        class="fa-solid fa-calendar-days"></i></span>
+                            </div>
+                        </div>
+                        <div style="margin-top: 30px;">
+                            <div style="color: black;" class="input-group date">
+                                <input required name="date2" id="date2" data-date-format="dd/mm/yyyy" type="text"
+                                    class="form-control" data-provide="datepicker" placeholder="Select date">
+                                <div class="input-group-append">
+                                    <span class="input-group-text"><i style="font-size:24px; color: #000;"
+                                            class="fa-solid fa-calendar-days"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-center">
+                            <button onclick="getData()" style="margin-top: 30px ; width: 200px; " type="submit"
+                                class="btn btn-danger rounded-pill ">STATIS</button>
+                        </div>
+                    </div>
+                </div>
+                <div id="viewStatis" class="col-md-9">
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+
+
+        async function getData() {
+            var date1 = document.getElementById('date1').value;
+            var date2 = document.getElementById('date2').value;
+
+            //view 
+            const view = document.getElementById('viewStatis');
+
+            view.innerHTML = '';
+
+            console.log(date1)
+            console.log(date2)
+            if (date1 == '' || date2 == '') {
+                alert('Input isEmpty');
+            } else {
+                var date = {
+                    "thanOrEqual": getTimestamp(date1),
+                    "lessOrEqual": getTimestamp(date2)
+                }
+
+                var res = await fetch(`http://127.0.0.1:3000/api/statis`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(date)
+                })
+                const result = await res.json();
+                console.log(result);
+
+                if (result.length != 0) {
+                    view.innerHTML = ` <div style="display: flex ;" class="container">
+                        <div>
+                            <canvas style="width:500px; height: 400px;" id="myChart"></canvas>
+                        </div>
+                        <div style="margin: 60px 10px;" class="container">
+                            <div class="table-wrapper">
+                                <table class="table table-striped table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Email</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="viewItem">                                      
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>`
+
+                    const ctx = document.getElementById('myChart');
+                    const viewUser = document.getElementById('viewItem');
+
+                    var chart = await new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: ['', '', 'User', '', '', ''],
+                            datasets: [{
+                                label: 'Total number of members',
+                                data: [0, 0, result.length != 0 ? result.length : 0, 0, 0, 0],
+                                borderWidth: 1,
+                                borderColor: '#fa114f',
+                                backgroundColor: '#fa114f',
+                            }]
+                        },
+                        options: {
+                            scales: {
+                                y: {
+                                    beginAtZero: true
+                                }
+                            }
+                        }
+                    });
+                    //Set view Email
+                    result.forEach((item) => {
+                        viewUser.innerHTML += ` 
+                                        <tr>
+                                            <td style="color: #fff;">${item.email}</td>
+                                        </tr>
+                                   `
+                    })
+                } else {
+                    view.innerHTML = `<h3 style="text-align: center; width:100%; margin: 100px 0px">No User</h3>`;
+                }
+            }
+        }
+
+        function getTimestamp(time) {
+            const date = new Date(time);
+            var time = date.getTime();
+            return time;
+        }
+
+        function date(a) {
+            const date = new Date();
+            const day = date.toLocaleDateString();
+            console.log(day)
+            console.log(getTimestamp(a))
+        }
+    </script>
+    {{!-- var date = {
+    "thanOrEqual": 1651683600000,
+    "lessOrEqual": 1680690040023
+    } --}}
+
+
+    {{!-- $(document).ready(function () {
+    // Kích hoạt datepicker cho input có lớp "datepicker"
+    $('.datepicker').datepicker();
+    }); --}}
+    {{!-- if (result.length != 0) {
+
+    viewItem.innerHTML = ''
+    const viewBtnRole = document.getElementById('btnRole');
+    for (var i = 0; i < result.length; i++) { if (result[i].role !='admin' ) { viewItem.innerHTML +=` <tbody
+        id="itemRole">
+        <tr>
+            <td style="color: #fff;">${result[i].email}</td>
+            <td style="color: #fff;">${result[i].role} </td>
+            <td>
+                <div style="display: flex;">
+                    <div id="btnRole">
+                        <a onclick="setRole('${result[i]._id}','${result[i].role}' )"
+                            style="cursor: pointer; margin: 0px 20px;">
+                            <i style="color: rgb(11, 249, 11); font-size: 24px;" class="fa-solid fa-circle-up"></i>
+                        </a>
+                    </div>
+                    <a onclick="deleteUser('${result[i]._id}')" style="cursor: pointer;">
+                        <i style=" font-size: 24px;" class="fa-solid fa-trash"></i>
+                    </a>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+        `
+        } else {
+        viewItem.innerHTML += `
+        <tbody id="itemRole">
+            <tr>
+                <td style="color: #fff;">${result[i].email}</td>
+                <td style="color: #fff;">${result[i].role} </td>
+                <td>
+                    <div style="display: flex;">
+                        <a onclick="setRole('${result[i]._id}','${result[i].role}' )"
+                            style="margin: 0px 20px;cursor: pointer;">
+                            <i style="color: red; font-size: 24px;" class="fa-solid fa-circle-down"></i>
+                        </a>
+
+                        <a onclick="deleteUser('${result[i]._id}')" style="cursor: pointer;">
+                            <i style=" font-size: 24px;" class="fa-solid fa-trash"></i>
+                        </a>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+        `
+        }
+        }
+        } else (
+        viewItem.innerHTML = ' <h3 style="text-align: center; width:100%; margin: 100px 0px">No User</h3>'
+        ) --}}

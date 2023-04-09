@@ -1,0 +1,24 @@
+<div style=" display: flex; justify-content: center; align-items: center;">
+    <div style="background-color: #eaeaea; border-radius: 10px;padding: 50px; margin: 30px 0px; width: 80%;"
+        class="container-fluid">
+
+        <form style="color: black" method="post" action="/edit_item_category/{{itemCategory._id}}">
+            <div class="modal-header">
+                <h4 class="modal-title mb-4">Edit Category</h4>
+                <button style="background-color: red; border: none; border-radius: 4px;" type="button" class="close"
+                    data-bs-dismiss="modal" aria-hidden="true"><i class="uil uil-times-square"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Name</label>
+                    <input value="{{itemCategory.name}}" minlength="6" name="name_category" type="text"
+                        class="form-control mt-3" required>
+                </div>
+            </div>
+            <div class="modal-footer mt-5">
+                <input type="submit" class="btn btn-info" value="Save">
+            </div>
+        </form>
+
+    </div>
+</div>

@@ -1,0 +1,116 @@
+<div class="container my-5">
+
+    <div class="row">
+        <div class="col-md-5">
+            <div class="main-img">
+                <img style=" object-fit: cover; border-radius: 15px;" width="440px" height="540px"
+                    src="/upload/{{itemProduct.image.[0]}}" alt="ProductS">
+                <div class="row my-3 previews">
+                    {{#each itemProduct.image}}
+                    <div class="col-md-3">
+                        <img class="w-100" src="/upload/{{this}}" alt="Sale">
+                    </div>
+                    {{/each}}
+
+                </div>
+            </div>
+        </div>
+        <div class="col-md-7">
+            <div class="main-description px-2">
+                <div class="category text-bold">
+                    Category: {{itemProduct.category}}
+                </div>
+                <div class="product-title text-bold my-3">
+                    {{itemProduct.name}}
+                </div>
+
+
+                <div class="price-area my-4">
+                    <p class="old-price mb-1"><del>${{itemProduct.price}}</del> <span
+                            class="old-price-discount text-danger">(20%
+                            off)</span></p>
+                    <p class="new-price text-bold mb-1">${{itemProduct.price}}</p>
+                    <p class="text-secondary mb-1">(Additional tax may apply on checkout)</p>
+
+                </div>
+
+
+                <div class="buttons d-flex my-5">
+
+                    <div style="background-color: burlywood; border-radius: 4px; color:#fff" class="block">
+                        <button class="shadow btn custom-btn">Add to cart</button>
+                    </div>
+
+                    <div class="block quantity">
+                        <input style="border-radius: 4px;" type="number" class="form-control" id="cart_quantity"
+                            value="1" min="0" max="100" placeholder="Enter email" name="cart_quantity">
+                    </div>
+                </div>
+
+
+
+
+            </div>
+
+            <div class="product-details my-4">
+                <p class="details-title text-color mb-1">Product Details</p>
+                <p class="description">{{itemProduct.description}}</p>
+            </div>
+
+
+
+        </div>
+    </div>
+
+</div>
+
+
+
+<div class="container similar-products my-4">
+    <hr>
+    <p class="display-5">Similar Products</p>
+
+    <div class="row">
+        <div class="col-md-3">
+            <div class="similar-product">
+                <img class="w-100"
+                    src="https://d2d22nphq0yz8t.cloudfront.net/88e6cc4b-eaa1-4053-af65-563d88ba8b26/https://media.croma.com/image/upload/v1664009482/Croma%20Assets/Communication/Mobiles/Images/243461_0_tzq0y4.png/mxw_2048,f_auto"
+                    alt="Preview">
+                <p class="title">Apple iPhone 13 (128GB, Starlight White)</p>
+                <p class="price">$100</p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="similar-product">
+                <img class="w-100"
+                    src="https://d2d22nphq0yz8t.cloudfront.net/88e6cc4b-eaa1-4053-af65-563d88ba8b26/https://media.croma.com/image/upload/v1664009609/Croma%20Assets/Communication/Mobiles/Images/243463_0_qtsxpd.png/mxw_2048,f_auto"
+                    alt="Preview">
+                <p class="title">Apple iPhone 13 (128GB, Pink)</p>
+                <p class="price">$85</p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="similar-product">
+                <img class="w-100"
+                    src="https://d2d22nphq0yz8t.cloudfront.net/88e6cc4b-eaa1-4053-af65-563d88ba8b26/https://media.croma.com/image/upload/v1664009482/Croma%20Assets/Communication/Mobiles/Images/243461_0_tzq0y4.png/mxw_2048,f_auto"
+                    alt="Preview">
+                <p class="title">Apple iPhone 13 (128GB, Starlight White)</p>
+                <p class="price">$200</p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="similar-product">
+                <img class="w-100"
+                    src="https://d2d22nphq0yz8t.cloudfront.net/88e6cc4b-eaa1-4053-af65-563d88ba8b26/https://media.croma.com/image/upload/v1664009609/Croma%20Assets/Communication/Mobiles/Images/243463_0_qtsxpd.png/mxw_2048,f_auto"
+                    alt="Preview">
+                <p class="title">Apple iPhone 13 (128GB, Pink)</p>
+                <p class="price">$120</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+</div>
