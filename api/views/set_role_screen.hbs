@@ -43,11 +43,13 @@
         </table>
     </div>
 </div>
-<script>
+<script type="module">
+
+
 
     getDataRole();
     async function getDataRole() {
-        var res = await fetch(`http://127.0.0.1:3000/api/role`, {
+        var res = await fetch(`https://project-server-74eh.onrender.com/api/role`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -123,7 +125,7 @@
                 } else {
                     var jsonRole = { "role": "admin" }
                 }
-                var res = await fetch(`http://127.0.0.1:3000/api/setRole/${id}`, {
+                var res = await fetch(`https://project-server-74eh.onrender.com/api/setRole/${id}`, {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json'
@@ -141,7 +143,7 @@
 
     async function deleteUser(id) {
         if (confirm('Are you sure??') == true) {
-            var res = await fetch(`http://127.0.0.1:3000/api/deleteUser/${id}`, {
+            var res = await fetch(`https://project-server-74eh.onrender.com/api/deleteUser/${id}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json'
@@ -149,6 +151,7 @@
             })
             if (res != null) {
                 getDataRole();
+
             }
         } else {
             return;

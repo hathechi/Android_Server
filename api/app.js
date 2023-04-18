@@ -15,6 +15,7 @@ app.engine(".hbs", express_handleBar.engine({ extname: ".hbs", defaultLayout: "m
 app.set('view engine', '.hbs');
 app.use(express.static("public"))
 app.use(express.static("upload"))
+app.use(express.static("public/js"))
 
 //thêm 2 dòng dưới để lấy được chuỗi json và lấy được data từ form input
 app.use(express.json());

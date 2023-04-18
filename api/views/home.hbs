@@ -137,7 +137,9 @@
     </div>
     </div>
 </main>
+
 <script>
+
     var time = new Date();
     console.log(`Time: ${time.getTime()}`)
     console.log(`Time: ${time.toLocaleString()}`)
@@ -145,8 +147,8 @@
     async function searchCategory(index) {
         let text = document.querySelector(`#item${index}`).textContent.trim();
 
-
-        var res = await fetch(`http://127.0.0.1:3000/api/product/category/${text}`, {
+        //http://127.0.0.1:3000 localhost
+        var res = await fetch(`https://project-server-74eh.onrender.com/api/product/category/${text}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'

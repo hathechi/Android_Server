@@ -113,7 +113,7 @@
             "password_login": password
         }
 
-        var res = await fetch('http://127.0.0.1:3000/api/signin', {
+        var res = await fetch('https://project-server-74eh.onrender.com/api/signin', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -132,7 +132,7 @@
             const login = JSON.parse(localStorage.getItem('role'));
             console.log(login)
             //Chuyen huong ve home
-            window.location.href = 'http://127.0.0.1:3000/home'
+            window.location.href = 'https://project-server-74eh.onrender.com/home'
         }
     }
 </script>
