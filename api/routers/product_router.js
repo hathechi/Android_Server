@@ -12,7 +12,8 @@ var storage = multer.diskStorage({
         res(null, file.originalname)
     }
 });
-var upload = multer({ storage: storage, limits: { fieldSize: 4000 } });
+// limits: { fieldSize: 4000 }
+var upload = multer({ storage: storage, });
 
 
 app.get("/detail_product/:id", async function (req, res) {
@@ -60,6 +61,7 @@ app.get("/admin", async function (req, res) {
                     }
                 })
             }
+            console.log("Category: ", categorys.itemCategory)
 
             res.render('admin', {
                 itemProduct: products.itemProduct,
