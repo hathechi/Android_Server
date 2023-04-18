@@ -6,12 +6,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_sever/configDB/config.dart';
 import 'package:flutter_sever/models/category.dart';
 import 'package:flutter_sever/models/product.dart';
+import 'package:flutter_sever/screens/detail_item_screen.dart';
 import 'package:flutter_sever/services/service_api.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart' as http;
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  final userName;
+  const HomePage({super.key, required this.userName});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -30,7 +32,6 @@ class _HomePageState extends State<HomePage> {
         checkCallApi = true;
       });
     }
-    print(listProducts[0].name);
   }
 
   @override
@@ -91,7 +92,7 @@ class _HomePageState extends State<HomePage> {
                                   style: TextStyle(fontWeight: FontWeight.w200),
                                 ),
                                 Text(
-                                  "ABC",
+                                  widget.userName,
                                   style: const TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 20),
@@ -165,19 +166,24 @@ class _HomePageState extends State<HomePage> {
                         return Column(
                           children: [
                             Container(
-                                child: ClipRRect(
-                              borderRadius: const BorderRadiusDirectional.all(
-                                  Radius.circular(100)),
-                              child: CircleAvatar(
-                                radius: 30,
-                                child: Image.network(
-                                  IPCONFIG_image + listProducts[index].image[0],
-                                  width: 60,
-                                  height: 60,
-                                  fit: BoxFit.cover,
+                              margin: const EdgeInsets.only(bottom: 10),
+                              child: ClipRRect(
+                                borderRadius: const BorderRadiusDirectional.all(
+                                    Radius.circular(100)),
+                                child: CircleAvatar(
+                                  backgroundColor:
+                                      const Color.fromARGB(255, 216, 216, 216),
+                                  radius: 30,
+                                  child: Image.network(
+                                    IPCONFIG_image +
+                                        listProducts[index].image[0],
+                                    width: 60,
+                                    height: 60,
+                                    fit: BoxFit.cover,
+                                  ),
                                 ),
                               ),
-                            )),
+                            ),
                             Text(
                               listCategory[index].nameCategory!,
                               style:
@@ -211,51 +217,65 @@ class _HomePageState extends State<HomePage> {
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
                       itemBuilder: (context, index) {
-                        return Container(
-                          margin: const EdgeInsets.all(5),
-                          decoration: const BoxDecoration(
-                            color: Color.fromARGB(255, 231, 231, 231),
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(10),
+                        return InkWell(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      DetailItem(product: listProducts[index]),
+                                ));
+                          },
+                          child: Container(
+                            margin: const EdgeInsets.all(5),
+                            decoration: const BoxDecoration(
+                              color: Color.fromARGB(255, 231, 231, 231),
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(10),
+                              ),
                             ),
-                          ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Container(
-                                height: 300,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  image: DecorationImage(
-                                    fit: BoxFit.cover,
-                                    image: NetworkImage(
-                                      IPCONFIG_image +
-                                          listProducts[index].image[0],
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  height: 300,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    image: DecorationImage(
+                                      fit: BoxFit.contain,
+                                      image: NetworkImage(
+                                        IPCONFIG_image +
+                                            listProducts[index].image[0],
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
-                              const SizedBox(
-                                height: 20,
-                              ),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 8),
-                                child: Text(
-                                  listProducts[index].name,
+                                const SizedBox(
+                                  height: 20,
                                 ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  listProducts[index].price.toString(),
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.bold,
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(horizontal: 8),
+                                  child: Text(
+                                    listProducts[index].name,
+                                    style: const TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold),
                                   ),
                                 ),
-                              ),
-                            ],
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 16, horizontal: 8),
+                                  child: Text(
+                                    "\$ ${listProducts[index].price}",
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         );
                       },
@@ -289,7 +309,6 @@ class _HomePageState extends State<HomePage> {
                 height: double.infinity,
                 child: Image.network(
                   IPCONFIG_image + listProducts[itemIndex].image[0],
-                  scale: 3,
                 ),
               ),
             ),
@@ -297,11 +316,12 @@ class _HomePageState extends State<HomePage> {
               top: 20,
               right: 20,
               child: Container(
+                alignment: Alignment.center,
                 height: 60,
                 decoration: const BoxDecoration(
-                    color: Colors.amber,
+                    color: Color.fromARGB(255, 92, 92, 92),
                     borderRadius: BorderRadius.all(Radius.circular(20))),
-                padding: const EdgeInsets.all(20),
+                padding: const EdgeInsets.all(10),
                 child: Text(
                   listProducts[itemIndex].name,
                   style: const TextStyle(

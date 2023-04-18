@@ -46,10 +46,11 @@ class _LoginScreenState extends State<LoginScreen> {
           context: context);
 
       // ignore: use_build_context_synchronously
-      Navigator.push(
+      Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => const HomeScreen(),
+          builder: (context) =>
+              HomeScreen(userName: jsonRes['check']['username']),
         ),
       );
     } else {

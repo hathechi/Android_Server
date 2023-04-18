@@ -4,7 +4,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  // ignore: prefer_typing_uninitialized_variables
+  final userName;
+  const HomeScreen({super.key, required this.userName});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -23,7 +25,11 @@ class _HomeScreenState extends State<HomeScreen> {
           _currentPage.value = index;
         },
         children: [
-          HomePage(),
+          widget.userName != null
+              ? HomePage(userName: widget.userName)
+              : Center(
+                  child: Text('HOME'),
+                ),
           Center(
             child: Text('CART'),
           ),
